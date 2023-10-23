@@ -7,17 +7,8 @@ const ctx = canvas.getContext("2d");
 const width = 800;
 const height = 600;
 
-let movedBallX = 2;
-let movedBallY = 2;
-
 canvas.width = width;
 canvas.height = height;
-
-ctx.beginPath();
-ctx.strokeStyle = "white";
-ctx.lineWidth = 10;
-ctx.strokeRect(0, 0, width, height);
-ctx.stroke();
 
 // Размеры ракетки
 const racketWidth = 50;
@@ -26,13 +17,30 @@ const racketHeight = 5;
 // Размеры мячика
 const radiusBall = 6;
 
+// Движение шарика
+let movedBallX = 2;
+let movedBallY = 10;
+
 // Изначальная позиция шарика
 let xBall = canvas.width / 2;
 let yBall = canvas.height - 50;
 
+// Движение ракетки
+let movedRocket = 20;
+
 // Изначальная позиция ракетки
-const xRocket = canvas.width / 2 - racketWidth / 2;
+let xRocket = canvas.width / 2 - racketWidth / 2;
 const yRocket = canvas.height - 50 + radiusBall;
+
+// Движения ракетки
+let leftMovedRocket = false;
+let rightMovedRocket = false;
+
+ctx.beginPath();
+ctx.strokeStyle = "white";
+ctx.lineWidth = 10;
+ctx.strokeRect(0, 0, width, height);
+ctx.stroke();
 
 //=== Функции
 function racket(
@@ -55,9 +63,28 @@ function ball(x = xBall, y = yBall, radius = radiusBall) {
   ctx.closePath();
 }
 
+function keyDownFn(event) {
+  if (event.key === "ArrowRight") {
+    rightMovedRocket = true;
+  }
+  if (event.key === "ArrowLeft") {
+    leftMovedRocket = true;
+  }
+}
+
+function keyUpFn(event) {
+  if (event.key === "ArrowRight") {
+    rightMovedRocket = false;
+  }
+  if (event.key === "ArrowLeft") {
+    leftMovedRocket = false;
+  }
+}
+
 function run() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ball();
+  racket();
 
   if (yBall <= 0 + radiusBall) {
     movedBallY = -movedBallY;
@@ -75,14 +102,23 @@ function run() {
     movedBallX = Math.abs(movedBallX);
   }
 
-  // yBall -= movedBallY;
-  xBall -= movedBallX;
-  console.log(movedBallY);
+  if (leftMovedRocket) {
+    xRocket -= movedRocket;
+  }
+
+  if (rightMovedRocket) {
+    xRocket += movedRocket;
+  }
+
+  yBall -= movedBallY;
+  // xBall -= movedBallX;
 }
 
 //=== Работа
 
 setInterval(run, 10);
 
-//=== Вызовы функций
-racket();
+//=== Обработчик событий
+
+document.addEventListener("keydown", keyDownFn);
+document.addEventListener("keyup", keyUpFn);
