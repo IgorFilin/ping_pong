@@ -1,9 +1,14 @@
+//=== Инициализация
+
 const canvas = document.querySelector("canvas");
 
 const ctx = canvas.getContext("2d");
 
 const width = 800;
 const height = 600;
+
+const movedBallX = 10;
+let movedBallY = 2;
 
 canvas.width = width;
 canvas.height = height;
@@ -14,14 +19,35 @@ ctx.lineWidth = 10;
 ctx.strokeRect(0, 0, width, height);
 ctx.stroke();
 
-function racket(x = 0, y = 0, width = 50, height = 5) {
+// Размеры ракетки
+const racketWidth = 50;
+const racketHeight = 5;
+
+// Размеры мячика
+const radiusBall = 6;
+
+// Изначальная позиция шарика
+let xBall = canvas.width / 2;
+let yBall = canvas.height - 50;
+
+// Изначальная позиция ракетки
+const xRocket = canvas.width / 2 - racketWidth / 2;
+const yRocket = canvas.height - 50 + radiusBall;
+
+//=== Функции
+function racket(
+  x = xRocket,
+  y = yRocket,
+  width = racketWidth,
+  height = racketHeight
+) {
   ctx.beginPath();
   ctx.fillStyle = "white";
   ctx.fillRect(x, y, width, height);
   ctx.closePat;
 }
 
-function ball(x = 0, y = 0, radius = 5) {
+function ball(x = xBall, y = yBall, radius = radiusBall) {
   ctx.beginPath();
   ctx.fillStyle = "white";
   ctx.arc(x, y, radius, 0, Math.PI * 2);
@@ -29,5 +55,26 @@ function ball(x = 0, y = 0, radius = 5) {
   ctx.closePath();
 }
 
-racket(200, 200);
-ball(100, 100);
+function run() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ball();
+  // xBall -= movedBallX;
+
+  if (yBall <= 0) {
+    movedBallY = -movedBallY;
+  }
+
+  if (yBall >= height) {
+    movedBallY = Math.abs(movedBallY);
+  }
+
+  yBall -= movedBallY;
+  console.log(movedBallY);
+}
+
+//=== Работа
+
+setInterval(run, 10);
+
+//=== Вызовы функций
+racket();
