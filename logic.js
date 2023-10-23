@@ -7,7 +7,7 @@ const ctx = canvas.getContext("2d");
 const width = 800;
 const height = 600;
 
-const movedBallX = 10;
+let movedBallX = 2;
 let movedBallY = 2;
 
 canvas.width = width;
@@ -58,17 +58,25 @@ function ball(x = xBall, y = yBall, radius = radiusBall) {
 function run() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ball();
-  // xBall -= movedBallX;
 
-  if (yBall <= 0) {
+  if (yBall <= 0 + radiusBall) {
     movedBallY = -movedBallY;
   }
 
-  if (yBall >= height) {
+  if (yBall >= height - radiusBall) {
     movedBallY = Math.abs(movedBallY);
   }
 
-  yBall -= movedBallY;
+  if (xBall <= 0 + radiusBall) {
+    movedBallX = -movedBallX;
+  }
+
+  if (xBall >= width - radiusBall) {
+    movedBallX = Math.abs(movedBallX);
+  }
+
+  // yBall -= movedBallY;
+  xBall -= movedBallX;
   console.log(movedBallY);
 }
 
