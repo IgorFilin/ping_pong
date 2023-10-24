@@ -120,8 +120,14 @@ function run() {
     xBall <= xRocket + racketWidth &&
     yBall === yRocket - radiusBall
   ) {
-    movedBallX = Math.abs(movedBallX);
-    movedBallY = Math.abs(movedBallY);
+    let random_boolean = Math.ceil(Math.random() * 10) < 5;
+    if (random_boolean) {
+      movedBallX = Math.abs(movedBallX);
+      movedBallY = Math.abs(movedBallY);
+    } else {
+      movedBallX = -movedBallX;
+      movedBallY = Math.abs(movedBallY);
+    }
   }
 
   if (yBall === height - radiusBall - 5) {
