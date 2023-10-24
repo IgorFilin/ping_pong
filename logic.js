@@ -36,12 +36,6 @@ const yRocket = canvas.height - 50 + radiusBall;
 let leftMovedRocket = false;
 let rightMovedRocket = false;
 
-ctx.beginPath();
-ctx.strokeStyle = "white";
-ctx.lineWidth = 10;
-ctx.strokeRect(0, 0, width, height);
-ctx.stroke();
-
 //=== Работа
 
 let id;
@@ -91,6 +85,12 @@ function run() {
   ball();
   racket();
 
+  ctx.beginPath();
+  ctx.strokeStyle = "white";
+  ctx.lineWidth = 10;
+  ctx.strokeRect(0, 0, width, height);
+  ctx.stroke();
+
   if (yBall <= 0 + radiusBall) {
     movedBallY = -movedBallY;
   }
@@ -124,13 +124,16 @@ function run() {
     movedBallY = Math.abs(movedBallY);
   }
 
-  if (yBall === height - radiusBall) {
+  if (yBall === height - radiusBall - 5) {
     clearInterval(id);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.font = "48px Monserat";
     ctx.textAlign = "center";
     ctx.fillText("GAME OVER", width / 2, height / 2);
     setTimeout(() => {
+      xBall = canvas.width / 2;
+      yBall = canvas.height - 50;
+      xRocket = canvas.width / 2 - racketWidth / 2;
       id = setInterval(run, 10);
     }, 2000);
   }
