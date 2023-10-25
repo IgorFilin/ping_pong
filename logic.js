@@ -36,6 +36,13 @@ const yRocket = canvas.height - 50 + radiusBall;
 let leftMovedRocket = false;
 let rightMovedRocket = false;
 
+// Кубики
+let squareArray = [];
+let countSquared = 50;
+let widthSquare = 15;
+let heightSquare = 15;
+let paddingSquare = 15;
+
 //=== Работа
 
 let id;
