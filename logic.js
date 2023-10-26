@@ -128,7 +128,7 @@ function run() {
   ) {
     const random_boolean = Math.ceil(Math.random() * 10) < 5;
     movedBallY = Math.abs(movedBallY);
-    movedBallX = random_boolean ? Math.abs(movedBallX) : movedBallX;
+    movedBallX = random_boolean ? -movedBallX : movedBallX;
     console.log(random_boolean);
   }
 
