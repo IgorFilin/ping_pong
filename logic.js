@@ -18,15 +18,15 @@ const racketHeight = 5;
 const radiusBall = 6;
 
 // Движение шарика
-let movedBallX = 3;
-let movedBallY = 3;
+let movedBallX = 1.5;
+let movedBallY = 1.5;
 
 // Изначальная позиция шарика
 let xBall = canvas.width / 2;
 let yBall = canvas.height - 50;
 
 // Движение ракетки
-let movedRocket = 7;
+let movedRocket = 3.1;
 
 // Изначальная позиция ракетки
 let xRocket = canvas.width / 2 - racketWidth / 2;
@@ -46,7 +46,7 @@ let paddingSquare = 15;
 //=== Работа
 
 let id;
-id = setInterval(run, 10);
+id = setInterval(run, 1);
 
 //=== Функции
 function racket(
@@ -91,7 +91,6 @@ function run() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ball();
   racket();
-
   ctx.beginPath();
   ctx.strokeStyle = "white";
   ctx.lineWidth = 10;
@@ -127,14 +126,10 @@ function run() {
     xBall <= xRocket + racketWidth &&
     yBall === yRocket - radiusBall
   ) {
-    let random_boolean = Math.ceil(Math.random() * 10) < 5;
-    if (random_boolean) {
-      movedBallX = Math.abs(movedBallX);
-      movedBallY = Math.abs(movedBallY);
-    } else {
-      movedBallX = -movedBallX;
-      movedBallY = Math.abs(movedBallY);
-    }
+    const random_boolean = Math.ceil(Math.random() * 10) < 5;
+    movedBallY = Math.abs(movedBallY);
+    movedBallX = random_boolean ? Math.abs(movedBallX) : movedBallX;
+    console.log(random_boolean);
   }
 
   if (yBall === height - radiusBall - 5) {
@@ -143,11 +138,12 @@ function run() {
     ctx.font = "48px Monserat";
     ctx.textAlign = "center";
     ctx.fillText("GAME OVER", width / 2, height / 2);
+
     setTimeout(() => {
       xBall = canvas.width / 2;
       yBall = canvas.height - 50;
       xRocket = canvas.width / 2 - racketWidth / 2;
-      id = setInterval(run, 10);
+      id = setInterval(run, 1);
     }, 2000);
   }
 
