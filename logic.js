@@ -26,7 +26,7 @@ let xBall = canvas.width / 2;
 let yBall = canvas.height - 50;
 
 // Движение ракетки
-let movedRocket = 3.1;
+let movedRocket = 3;
 
 // Изначальная позиция ракетки
 let xRocket = canvas.width / 2 - racketWidth / 2;
@@ -38,12 +38,31 @@ let rightMovedRocket = false;
 
 // Кубики
 let squareArray = [];
-let countSquared = 50;
-let widthSquare = 15;
-let heightSquare = 15;
-let paddingSquare = 15;
+let xPositionSquare = 0;
+let yPositionSquare = 1;
+let countSquared = 220;
+let widthSquare = 20;
+let heightSquare = 20;
+let paddingSquare = 6;
 
 //=== Работа
+
+for (let i = 0; i <= countSquared; i++) {
+  if (!i) {
+    xPositionSquare = 0 + paddingSquare;
+  } else {
+    xPositionSquare += widthSquare + paddingSquare;
+  }
+  if (xPositionSquare + widthSquare >= width) {
+    yPositionSquare += heightSquare + paddingSquare;
+    xPositionSquare = 0 + paddingSquare;
+  }
+  const coord = {
+    x: xPositionSquare,
+    y: yPositionSquare + paddingSquare,
+  };
+  squareArray.push(coord);
+}
 
 let id;
 id = setInterval(run, 1);
@@ -87,10 +106,22 @@ function keyUpFn(event) {
   }
 }
 
+function coob(x, y, w, h) {
+  ctx.beginPath();
+  ctx.fillStyle = "white";
+  ctx.fillRect(x + paddingSquare, y + paddingSquare, w, h);
+  ctx.closePath();
+}
+
 function run() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ball();
   racket();
+
+  for (let i = 0; i < squareArray.length; i++) {
+    coob(squareArray[i].x, squareArray[i].y, widthSquare, heightSquare);
+  }
+
   ctx.beginPath();
   ctx.strokeStyle = "white";
   ctx.lineWidth = 10;
@@ -129,7 +160,6 @@ function run() {
     const random_boolean = Math.ceil(Math.random() * 10) < 5;
     movedBallY = Math.abs(movedBallY);
     movedBallX = random_boolean ? -movedBallX : movedBallX;
-    console.log(random_boolean);
   }
 
   if (yBall === height - radiusBall - 5) {
@@ -147,8 +177,8 @@ function run() {
     }, 2000);
   }
 
-  yBall -= movedBallY;
-  xBall -= movedBallX;
+  // yBall -= movedBallY;
+  // xBall -= movedBallX;
 }
 
 //=== Обработчик событий
