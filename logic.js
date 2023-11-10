@@ -112,7 +112,7 @@ function coob(x, y, w, h) {
   ctx.fillRect(x + paddingSquare, y + paddingSquare, w, h);
   ctx.closePath();
 }
-
+let test;
 function run() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ball();
@@ -177,10 +177,23 @@ function run() {
     }, 2000);
   }
 
-  // yBall -= movedBallY;
-  // xBall -= movedBallX;
-}
+  for (let i = 0; i < squareArray.length; i++) {
+    if (
+      xBall + radiusBall > squareArray[i].x &&
+      xBall - radiusBall < squareArray[i].x + widthSquare &&
+      yBall + radiusBall > squareArray[i].y &&
+      yBall - radiusBall < squareArray[i].y + heightSquare
+    ) {
+      squareArray.splice(i, 1);
+      movedBallY = -movedBallY;
+      movedBallX = -movedBallX;
+    }
+  }
 
+  yBall -= movedBallY;
+  xBall -= movedBallX;
+}
+console.log(squareArray);
 //=== Обработчик событий
 
 document.addEventListener("keydown", keyDownFn);
